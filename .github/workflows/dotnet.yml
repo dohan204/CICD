@@ -16,7 +16,7 @@ permissions:
 
 defaults: 
     run: 
-        working-directory: ./src/app
+        working-directory: ./src/App
 jobs: 
     build_and_test: 
         runs-on: ubuntu-latest
@@ -55,5 +55,5 @@ jobs:
               uses: actions/upload-artifact@v4
               with: 
                 name: Console_App
-                path: src/App/publish_output
+                path: ./src/App/publish_output
     
