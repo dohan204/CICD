@@ -1,0 +1,59 @@
+name: learn_cicd_in_dotnet
+
+
+on: 
+    pull_request: 
+        branches: ["main", "test"]
+        types: 
+            - opened
+    push: 
+        branches: ["main", "test"]
+
+
+permissions: 
+    pull-requests: write
+
+
+defaults: 
+    run: 
+        working-directory: ./src/app
+jobs: 
+    build_and_test: 
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Check out ma nguon 
+              uses: actions/checkout@v4
+              
+            - name: Comment tin vao pr
+              if: github.event_name == 'pull_request'
+              uses: actions/github-script@v7
+              with: 
+                script: | 
+                    github.rest.issues.createComment({
+                        issue_number: context.payload.pull_request.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: "xin chào, mình là bot tự động build .Net Core, thấy fen sửa code C# nên mình bò vào chạy nhé!"
+                    })
+
+            - name: Cai dat .NET CORE Sdk
+              uses: actions/setup-dotnet@v4
+              with: 
+                dotnet-version: '10.0'
+
+            - name: Restore nuget packages
+              run: dotnet restore
+
+            - name: Bien dich ma nguon 
+              run: dotnet build --no-restore --configuration Release
+
+            - name: Xuat ban ung dung
+              run: dotnet publish --no-build --configuration Release --output ./publish_output
+
+
+            - name: Luu tru file chay ung dung 
+              uses: actions/upload-artifact@v4
+              with: 
+                name: Console_App
+                path: src/App/publish_output
+    
