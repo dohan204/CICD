@@ -44,4 +44,9 @@ public class HomeRepository : IHomeRepository
 
         products.Add(newProduct);
     }
+
+    public void DeleteProduct(Product product)
+    {
+        products.Remove(product);
+    }
 }

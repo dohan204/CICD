@@ -68,10 +68,10 @@ jobs:
             - name: Đóng gói ứng dụng 
               # --configuration Release: Đóng gói ở chế độ chạy thật, (tối ưu code, xóa file thừa)
               # --output ./publish-folder: chỉ định ném toàn bộ sản phẩm sau khi đóng gói
-              run: dotnet publish --configuration Release --output ./publish-folder
+              run: dotnet publish src/Api/Api.csproj --configuration Release --output ./publish-folder
 
             - name: Lưu sp Đóng gói
               uses: actions/upload-artifact@v4
               with: 
                 name: my-web-api-release # tên file zip khi tải về
-                path: ./publish-folter/ # chỉ định thư mục cần nén
+                path: ./publish-folder/ # chỉ định thư mục cần nén
