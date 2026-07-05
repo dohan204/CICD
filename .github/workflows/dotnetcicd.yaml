@@ -57,7 +57,21 @@ jobs:
         runs-on: ubuntu-latest
         needs: build_and_test
         steps: 
-            - name: hiển thị kết quả
-              run: |
-                echo "Thành công"
-                echo "ok"
+            - name: Checkout mã nguồn
+              uses: actions/checkout@v4
+
+            - name: Cài đặt moi trường 
+              uses: actions/setup-dotnet@v4
+              with: 
+                dotnet-version: '10.0'
+
+            - name: Đóng gói ứng dụng 
+              # --configuration Release: Đóng gói ở chế độ chạy thật, (tối ưu code, xóa file thừa)
+              # --output ./publish-folder: chỉ định ném toàn bộ sản phẩm sau khi đóng gói
+              run: dotnet publish --configuration Release --output ./publish-folder
+
+            - name: Lưu sp Đóng gói
+              uses: actions/upload-artifact@v4
+              with: 
+                name: my-web-api-release # tên file zip khi tải về
+                path: ./publish-folter/ # chỉ định thư mục cần nén
