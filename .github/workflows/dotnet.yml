@@ -2,12 +2,16 @@ name: learn_cicd_in_dotnet
 
 
 on: 
+    label: 
+        types: 
+            - created
     pull_request: 
         branches: ["main", "test"]
         types: 
             - opened
     push: 
         branches: ["main", "test"]
+    page_build: 
 
 
 permissions: 

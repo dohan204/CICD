@@ -1,0 +1,63 @@
+name: .Net_API_CI_CD
+
+
+on: 
+    pull_request: 
+        branches: 
+            - main
+        types: 
+            - opened #kích hoạt khi pr mới được mở
+            - synchronize # kích hoạt khi tiếp tục push code vào pull request đó
+        paths: 
+            - 'src/**/*.cs'
+            - 'src/**/*.csproj'
+            - 'tests/**/*.cs'
+            - 'tests/**/*.csproj' # Thỏa mãn: Chỉ chạy khi có sự thay đổi ở file code C# hoặc file dự án (.csproj)
+        
+permissions: 
+    pull-requests: write # cấp quyền cho con bot được ghi thả comment vào giao diện 
+
+jobs: 
+    build_and_test: 
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Check out ma nguon
+              uses: actions/checkout@v4 #Action Chuẩn của github để copy code vào máy ảo
+
+            - name: Bot chao buong PR
+              uses: actions/github-script@v7
+              with: 
+                script: | 
+                    github.rest.issues.createComment({
+                        issue_number: context.payload.pull_request.number, // lấy đúng số pr hiện tại 
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: "Bot CLI: Chào fen! Đã nhận diện đúng cấu trúc thư mục Solution. Tao bắt đầu chạy Build và kiểm tra Unit Test tự động đây m nhé! 🚀"
+                    })
+
+            - name: Cai dat moi truong .NET Sdk
+              uses: actions/setup-dotnet@v4
+              with: 
+                dotnet-version: '10.0'
+
+            - name: Khôi phục các thư viện
+              run: dotnet restore
+
+            - name: Bien dich ma nguon (Build)
+              # --no-restore: không cần phải tải lại các thư viện nữa vì bước ở trên làm rồi
+              # --configuration Release: Biên dịch ở chế độ tối ưu nhất để chuẩn bị chạy thực tế
+              run: dotnet build --no-restore --configuration Release
+
+            - name: Chay Toan bo Unit test
+              # --no-build: tiết kiệm thời gian, lấy luôn phần đã build ở bước trên để test
+              # --verbosity normal: bắt con bot in chi tiết kết quả test (hàm nào Pass, hàm nào Tạch) ra màn hình log
+              run: dotnet test --no-build --configuration Release --verbosity normal
+
+    publish_app: 
+        runs-on: ubuntu-latest
+        needs: build_and_test
+        steps: 
+            - name: hiển thị kết quả
+              run: |
+                echo "Thành công"
+                echo "ok"
