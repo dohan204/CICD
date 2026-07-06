@@ -1,0 +1,45 @@
+name: Learn_ci_cd
+
+
+on: 
+    push: 
+        branches: 
+            - learn
+
+permissions: 
+    pull-requests: write
+
+
+jobs: 
+    my_first_job: 
+        name: Cong viec dau tien
+        runs-on: ubuntu-latest
+        steps: 
+            - name: step 1
+              run: |
+                echo "hello anh em nhé"
+
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: ket qua
+              if: success()
+              run: |
+                echo "Thao tac thanh cong"
+
+    my_second_job: 
+        name: Cong viec thu 2
+        needs: my_first_job
+        runs-on: ubuntu-latest
+        steps: 
+            - name: step 2
+              run: | 
+                echo "lay ket qua thanh cong"
+
+    comment: 
+        runs-on: ubuntu-latest
+        steps: 
+            - run: gh issue comment $ISSUE --body "Thank you for opening this issue"
+              env: 
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                ISSUE: ${{ github.event.issue.html_url }}
