@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "e:\\Programming\\CICD\\src\\Api\\Api.csproj": {}
+    "E:\\Programming\\CICD\\src\\Api\\Api.csproj": {}
   },
   "projects": {
-    "e:\\Programming\\CICD\\src\\Api\\Api.csproj": {
+    "E:\\Programming\\CICD\\src\\Api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\Programming\\CICD\\src\\Api\\Api.csproj",
+        "projectUniqueName": "E:\\Programming\\CICD\\src\\Api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "e:\\Programming\\CICD\\src\\Api\\Api.csproj",
+        "projectPath": "E:\\Programming\\CICD\\src\\Api\\Api.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "e:\\Programming\\CICD\\src\\Api\\obj\\",
+        "outputPath": "E:\\Programming\\CICD\\src\\Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
